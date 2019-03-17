@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <eHeader :query="query"/>
+    <eHeader :query="query" :menus = "menus"/>
     <!--表格渲染-->
     <div :style="'height: auto;max-height:' + height + 'overflow-y: auto;'">
       <el-table v-loading="loading" :data="data" highlight-current-row size="small" border style="width: 100%;" @current-change="handleCurrentChange">
@@ -8,7 +8,7 @@
         <el-table-column prop="remark" label="描述"/>
         <el-table-column label="操作" width="150px" align="center">
           <template slot-scope="scope">
-            <edit v-if="checkPermission(['ADMIN','ROLES_ALL','ROLES_EDIT'])" :data="scope.row" :sup_this="sup_this" :menus = "menus"/>
+            <edit v-if="checkPermission(['ADMIN','ROLES_ALL','ROLES_EDIT'])" :data="scope.row" :sup_this="sup_this" :menus="menus" :menuids="menuIds"/>
             <el-popover
               v-if="checkPermission(['ADMIN','ROLES_ALL','ROLES_DELETE'])"
               :ref="scope.row.id"
@@ -160,10 +160,11 @@ export default {
     },
     getMenus() {
       getMenusTree().then(res => {
-        this.menus = res
+        this.menus = res.data
       })
     },
     handleCurrentChange(val) {
+      console.log('handleCurrentChange')
       const _this = this
       // 清空权限与菜单的选中
       this.$refs.permission.setCheckedKeys([])
@@ -178,6 +179,7 @@ export default {
       // 菜单数据需要特殊处理
       val.menus.forEach(function(data, index) {
         let add = true
+        // 去除父菜单，menuid 只需要加入子菜单
         for (let i = 0; i < val.menus.length; i++) {
           if (data.id === val.menus[i].pid) {
             add = false

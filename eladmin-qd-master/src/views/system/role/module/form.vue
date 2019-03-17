@@ -5,11 +5,11 @@
         <el-input v-model="form.name" style="width: 370px;"/>
       </el-form-item>
       <el-form-item label="授权" prop="menus">
-        <div :style="'min-height: 200px;max-height:500px;overflow-y: auto;'">
+        <div :style="'min-height: 200px;overflow-y: auto;margin:5px 0'">
           <el-tree
             ref="menu"
             :data="menus"
-            :default-checked-keys="menuIds"
+            :default-checked-keys="menuids"
             :props="defaultProps"
             show-checkbox
             node-key="id"/>
@@ -39,6 +39,10 @@ export default {
       default: null
     },
     menus: {
+      type: Array,
+      required: true
+    },
+    menuids: {
       type: Array,
       required: true
     }

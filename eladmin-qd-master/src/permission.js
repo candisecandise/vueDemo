@@ -18,12 +18,14 @@ router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   if (getToken()) {
     // 已登录且要跳转的页面是登录页
+    console.log(store.getters.roles)
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(res => { // 拉取user_info
+          console.log('getinfo')
           // 动态路由，拉取菜单
           loadMenus(next, to)
         }).catch((err) => {
@@ -55,7 +57,8 @@ router.beforeEach((to, from, next) => {
 export const loadMenus = (next, to) => {
   buildMenus().then(res => {
     // res.push(asyncRouterMap)
-    const asyncRouter = filterAsyncRouter(res)
+    // const asyncRouter = filterAsyncRouter(res)
+    const asyncRouter = filterAsyncRouter(res.content)
     asyncRouter.push({ path: '*', redirect: '/404', hidden: true })
     store.dispatch('GenerateRoutes', asyncRouter).then(() => { // 存储路由
       router.addRoutes(asyncRouter) // 动态添加可访问路由表

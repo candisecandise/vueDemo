@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button size="mini" type="success" @click="to">编辑</el-button>
-    <eForm ref="form" :sup_this="sup_this" :is-add="false"/>
+    <eForm ref="form" :sup_this="sup_this" :is-add="false" :menus="menus" :menuids="menuids"/>
   </div>
 </template>
 <script>
@@ -15,6 +15,14 @@ export default {
     },
     sup_this: {
       type: Object,
+      required: true
+    },
+    menus: {
+      type: Array,
+      required: true
+    },
+    menuids: {
+      type: Array,
       required: true
     }
   },

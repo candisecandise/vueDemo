@@ -6,14 +6,9 @@
       <el-table v-loading="loading" :data="data" highlight-current-row size="small" border style="width: 100%;" @current-change="handleCurrentChange">
         <el-table-column prop="name" label="名称"/>
         <el-table-column prop="remark" label="描述"/>
-        <el-table-column prop="createTime" label="创建日期">
-          <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createTime) }}</span>
-          </template>
-        </el-table-column>
         <el-table-column label="操作" width="150px" align="center">
           <template slot-scope="scope">
-            <edit v-if="checkPermission(['ADMIN','ROLES_ALL','ROLES_EDIT'])" :data="scope.row" :sup_this="sup_this"/>
+            <edit v-if="checkPermission(['ADMIN','ROLES_ALL','ROLES_EDIT'])" :data="scope.row" :sup_this="sup_this" :menus = "menus"/>
             <el-popover
               v-if="checkPermission(['ADMIN','ROLES_ALL','ROLES_DELETE'])"
               :ref="scope.row.id"
@@ -95,10 +90,10 @@
 
 <script>
 import checkPermission from '@/utils/permission'
-import initData from '@/mixins/initData'
+import initData from '@/mixins/initData2'
 import { del } from '@/api/role'
 import { getPermissionTree } from '@/api/permission'
-import { getMenusTree2 } from '@/api/menu'
+import { getMenusTree } from '@/api/menu'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
 import edit from './module/edit'
@@ -136,6 +131,8 @@ export default {
       const query = this.query
       const value = query.value
       this.params = { page: this.page, size: this.size, sort: sort }
+      // 先注释
+      this.params = {}
       if (value) { this.params['name'] = value }
       return true
     },
@@ -162,7 +159,7 @@ export default {
       })
     },
     getMenus() {
-      getMenusTree2().then(res => {
+      getMenusTree().then(res => {
         this.menus = res.data
       })
     },
