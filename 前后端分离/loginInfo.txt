@@ -1,0 +1,8 @@
+{
+  "username": "test",
+  "avatar": "https://i.loli.net/2019/01/16/5c3ed609e6f99.jpg",
+  "email": "zhengjie@tom.com",
+  "enabled": true,
+  "createTime": 1534986716000,
+  "roles": ["PERMISSION_SELECT", "ROLES_SELECT", "USER_SELECT", "ROLES_CREATE", "PERMISSION_CREATE"]
+}
