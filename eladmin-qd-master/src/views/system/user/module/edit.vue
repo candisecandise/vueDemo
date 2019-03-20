@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button size="mini" type="success" @click="to">编辑</el-button>
-    <eForm ref="form" :roles="roles" :sup_this="sup_this" :is-add="false"/>
+    <eForm ref="form" :roles="roles" :sup_this="sup_this" :is-add="false" :is-person="isPerson"/>
   </div>
 </template>
 <script>
@@ -17,6 +17,10 @@ export default {
       type: Object,
       required: true
     },
+    isPerson: {
+      type: Boolean,
+      required: true
+    },
     // index.vue 的this 可用于刷新数据
     sup_this: {
       type: Object,
@@ -29,9 +33,10 @@ export default {
       // this.data 当前行传递过来的data
       const _this = this.$refs.form
       _this.roleIds = []
-      _this.form = { id: this.data.id, username: this.data.username, email: this.data.email, enabled: this.data.enabled.toString(), roles: [] }
+      _this.form = { id: this.data.id, username: this.data.username, email: this.data.email, enabled: this.data.enabled.toString(), roles: [],
+        period: this.data.period, phone: this.data.phone, remark: this.data.remark, lastIp: this.data.lastIp, lastTime: this.data.lastTime, createTime: this.data.createTime }
       // 将 rolesid 填入form  表单中
-      this.data.role.forEach(function(data, index) {
+      this.data.roles.forEach(function(data, index) {
         _this.roleIds.push(data.id)
       })
       _this.dialog = true

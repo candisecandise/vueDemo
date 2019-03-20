@@ -4,24 +4,20 @@
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
       <el-table-column prop="username" label="用户名"/>
-      <el-table-column prop="role" label="类型">
+      <el-table-column prop="roles" label="类型">
         <template slot-scope="scope">
-          <span v-for="(item,index) in scope.row.role " :key="index">{{ item.name }}</span>
+          <span v-for="(item,index) in scope.row.roles " :key="index">{{ item.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.enabled ? '激活':'锁定' }}</span>
+          <span>{{ scope.row.enabled ? '正常':'锁定' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="role" label="描述">
+      <el-table-column prop="remark" label="用户描述"/>>
+      <el-table-column label="操作" width="230px" align="center">
         <template slot-scope="scope">
-          <span v-for="(item,index) in scope.row.role " :key="index">{{ item.remark }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" width="150px" align="center">
-        <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN','USER_ALL','USER_EDIT'])" :data="scope.row" :roles="roles" :sup_this="sup_this"/>
+          <edit v-if="checkPermission(['ADMIN','USER_ALL','USER_EDIT'])" :data="scope.row" :roles="roles" :sup_this="sup_this" :is-person="false"/>
           <el-popover
             v-if="checkPermission(['ADMIN','USER_ALL','USER_DELETE'])"
             :ref="scope.row.id"
@@ -33,6 +29,18 @@
               <el-button :loading="delLoading" type="primary" size="mini" @click="subDelete(scope.row.id)">确定</el-button>
             </div>
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
+          </el-popover>
+          <el-popover
+            v-if="checkPermission(['ADMIN','USER_ALL','USER_DELETE'])"
+            :ref="scope.row.id"
+            placement="top"
+            width="180">
+            <p>确定重置密码吗？</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="$refs[scope.row.id].doClose()">取消</el-button>
+              <el-button :loading="delLoading" type="primary" size="mini" @click="subResetPsw(scope.row.id)">确定</el-button>
+            </div>
+            <el-button slot="reference" type="danger" size="mini">重置密码</el-button>
           </el-popover>
         </template>
       </el-table-column>
@@ -50,7 +58,7 @@
 <script>
 import checkPermission from '@/utils/permission'
 import initData from '@/mixins/initData2'
-import { del } from '@/api/user'
+import { del, resetPsw } from '@/api/user'
 import { getRoleTree } from '@/api/role'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
@@ -60,7 +68,7 @@ export default {
   mixins: [initData],
   data() {
     return {
-      roles: [], delLoading: false, sup_this: this
+      roles: [], delLoading: false, resLoading: false, sup_this: this
     }
   },
   created() {
@@ -103,9 +111,27 @@ export default {
         console.log(err.response.data.message)
       })
     },
+    subResetPsw(id) {
+      this.resLoading = true
+      resetPsw(id).then(res => {
+        this.resLoading = false
+        this.$refs[id].doClose()
+        this.init()
+        this.$notify({
+          title: '重置成功',
+          type: 'success',
+          duration: 2500
+        })
+      }).catch(err => {
+        this.resLoading = false
+        this.$refs[id].doClose()
+        console.log(err.response.data.message)
+      })
+    },
     getRoles() {
       getRoleTree().then(res => {
-        this.roles = res
+        // this.roles = res
+        this.roles = res.data
       })
     }
   }

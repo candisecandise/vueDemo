@@ -19,7 +19,8 @@
         type="primary"
         icon="el-icon-plus"
         @click="$refs.form.dialog = true">新增</el-button>
-      <eForm ref="form" :roles="roles" :is-add="true"/>
+      <eForm ref="form" :roles="roles" :is-add="true" :is-person="false"/>
+      <!-- <edit v-if="checkPermission(['ADMIN','USER_ALL','USER_CREATE'])" :data="data" :roles="roles" :sup_this="sup_this" :isAdd="true"/> -->
     </div>
     <!-- 导出 -->
     <el-button
@@ -37,9 +38,10 @@
 import checkPermission from '@/utils/permission' // 权限判断函数
 import { parseTime } from '@/utils/index'
 import eForm from './form'
+import edit from './edit'
 // 查询条件
 export default {
-  components: { eForm },
+  components: { eForm, edit },
   props: {
     roles: {
       type: Array,
@@ -52,6 +54,7 @@ export default {
   },
   data() {
     return {
+      // data: {},
       downloadLoading: false,
       queryTypeOptions: [
         { key: 'username', display_name: '用户名' },

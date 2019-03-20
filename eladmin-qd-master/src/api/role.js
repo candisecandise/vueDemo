@@ -1,8 +1,9 @@
 import request from '@/utils/request'
+import request2 from '@/utils/request2'
 
 // 获取所有的Role
 export function getRoleTree() {
-  return request({
+  return request2({
     url: 'api/roles/tree',
     method: 'get'
   })

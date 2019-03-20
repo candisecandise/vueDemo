@@ -21,20 +21,14 @@
           <span v-else>否</span>
         </template>
       </el-table-column>
-      <el-table-column prop="isMenu" width="100px" label="类型">
+      <el-table-column prop="createTime" label="创建日期">
         <template slot-scope="scope">
-          <span v-if="scope.row.isMenu">菜单</span>
-          <span v-else>权限</span>
+          <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="permissions" label="权限标识">
+      <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.permissions }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" width="220px" align="center">
-        <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN','MENU_ALL','MENU_EDIT'])" :menus="menus" :data="scope.row" :sup_this="sup_this" :is-edit="isEdit"/>
+          <edit v-if="checkPermission(['ADMIN','MENU_ALL','MENU_EDIT'])" :menus="menus" :data="scope.row" :sup_this="sup_this"/>
           <el-popover
             v-if="checkPermission(['ADMIN','MENU_ALL','MENU_DELETE'])"
             :ref="scope.row.id"
@@ -47,7 +41,6 @@
             </div>
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popover>
-          <edit v-if="checkPermission(['ADMIN','MENU_ALL','MENU_EDIT'])" :menus="menus" :data="scope.row" :sup_this="sup_this" :is-edit="!isEdit"/>
         </template>
       </el-table-column>
     </tree-table>
@@ -57,7 +50,7 @@
 <script>
 import checkPermission from '@/utils/permission' // 权限判断函数
 import treeTable from '@/components/TreeTable'
-import initData from '@/mixins/initData2'
+import initData from '@/mixins/initData'
 import { del, getMenusTree } from '@/api/menu'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
@@ -73,7 +66,7 @@ export default {
           value: 'name'
         }
       ],
-      delLoading: false, sup_this: this, menus: [], isEdit: true
+      delLoading: false, sup_this: this, menus: []
     }
   },
   created() {
@@ -115,8 +108,7 @@ export default {
       getMenusTree().then(res => {
         this.menus = []
         const menu = { id: 0, label: '顶级类目', children: [] }
-        // menu.children = res
-        menu.children = res.data
+        menu.children = res
         this.menus.push(menu)
       })
     }

@@ -9,7 +9,6 @@
           <screenfull class="screenfull right-menu-item"/>
         </el-tooltip>
       </template>
-
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar" class="user-avatar">
@@ -21,6 +20,9 @@
               首页
             </el-dropdown-item>
           </router-link>
+          <el-dropdown-item >
+            <pswEdit :is-btn="isBtn"/>
+          </el-dropdown-item>
           <router-link to="/user/center">
             <el-dropdown-item>
               个人中心
@@ -40,12 +42,19 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
+import pswEdit from '@/views/system/user/center/pswEdit'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    Screenfull
+    Screenfull,
+    pswEdit
+  },
+  data() {
+    return {
+      isBtn: false
+    }
   },
   computed: {
     ...mapGetters([

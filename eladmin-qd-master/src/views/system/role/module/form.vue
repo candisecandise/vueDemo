@@ -5,11 +5,12 @@
         <el-input v-model="form.name" style="width: 370px;"/>
       </el-form-item>
       <el-form-item label="授权" prop="menus">
-        <div :style="'min-height: 200px;overflow-y: auto;margin:5px 0'">
+        <div :style="'min-height:100px;max-height: 250px;overflow-y: auto;margin:5px 0'">
           <el-tree
             ref="menu"
             :data="menus"
-            :default-checked-keys="menuids"
+            :default-checked-keys="form.menuIds"
+            :default-expand-all="true"
             :props="defaultProps"
             show-checkbox
             node-key="id"/>
@@ -41,10 +42,6 @@ export default {
     menus: {
       type: Array,
       required: true
-    },
-    menuids: {
-      type: Array,
-      required: true
     }
   },
   data() {
@@ -53,9 +50,8 @@ export default {
         children: 'children',
         label: 'label'
       },
-      menuIds: [],
       loading: false, dialog: false,
-      form: { name: '', permissions: [], remark: '' },
+      form: { name: '', menuIds: [], remark: '' },
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: 'blur' }
@@ -68,9 +64,28 @@ export default {
       this.resetForm()
     },
     doSubmit() {
+      console.log('form')
+      console.log(this.form.name)
+      // 得到半选的父节点数据，保存起来
+      const _this = this.form
+      console.log(_this)
+      _this.menuIds = []
+      this.$refs.menu.getHalfCheckedNodes().forEach(function(data, index) {
+        const permission = { id: data.id }
+        console.log(permission)
+        _this.menuIds.push(data.id)
+      })
+      // 得到已选中的 key 值
+      this.$refs.menu.getCheckedKeys().forEach(function(data, index) {
+        const permission = { id: data }
+        console.log(permission)
+        _this.menuIds.push(data)
+      })
+      console.log(this.form)
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.loading = true
+
           if (this.isAdd) {
             this.doAdd()
           } else this.doEdit()
@@ -112,7 +127,7 @@ export default {
     resetForm() {
       this.dialog = false
       this.$refs['form'].resetFields()
-      this.form = { name: '', permissions: [], remark: '' }
+      this.form = { name: '', menuIds: [], remark: '' }
     }
   }
 }

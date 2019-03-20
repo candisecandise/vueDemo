@@ -15,6 +15,14 @@ export function del(id) {
   })
 }
 
+export function resetPsw(id, psw) {
+  return request({
+    url: 'api/users/' + id,
+    method: 'put',
+    psw
+  })
+}
+
 export function edit(data) {
   return request({
     url: 'api/users',

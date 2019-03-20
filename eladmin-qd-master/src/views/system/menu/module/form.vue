@@ -1,6 +1,9 @@
 <template>
   <el-dialog :visible.sync="dialog" :title="isAdd ? '新增菜单' : '编辑菜单'" append-to-body width="600px">
     <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
+      <el-form-item label="上级菜单">
+        <treeselect v-model="form.pid" :options="menus" style="width: 460px;" placeholder="选择上级类目" />
+      </el-form-item>
       <el-form-item label="菜单图标">
         <el-popover
           placement="bottom-start"
@@ -20,18 +23,22 @@
       <el-form-item label="菜单排序" prop="sort">
         <el-input v-model.number="form.sort" placeholder="序号越小越靠前" style="width: 460px;"/>
       </el-form-item>
-      <el-form-item label="内部菜单" prop="iframe">
+      <el-form-item label="菜单类型" prop="isMenu">
+        <el-radio v-model="form.isMenu" label="true">菜单</el-radio>
+        <el-radio v-model="form.isMenu" label="false" >权限</el-radio>
+      </el-form-item>
+      <el-form-item v-if="form.isMenu === 'true'" label="内部菜单" prop="iframe">
         <el-radio v-model="form.iframe" label="false">是</el-radio>
         <el-radio v-model="form.iframe" label="true" >否</el-radio>
       </el-form-item>
-      <el-form-item label="链接地址">
+      <el-form-item v-if="form.isMenu === 'true'" label="链接地址">
         <el-input v-model="form.path" placeholder="菜单路径" style="width: 460px;"/>
       </el-form-item>
-      <el-form-item v-if="form.iframe === 'false'" label="组件路径">
-        <el-input v-model="form.component" placeholder="菜单路径" style="width: 460px;"/>
+      <el-form-item v-if="form.iframe === 'false'&&form.isMenu === 'true'" label="组件路径">
+        <el-input v-model="form.component" placeholder="组件路径" style="width: 460px;"/>
       </el-form-item>
-      <el-form-item label="上级类目">
-        <treeselect v-model="form.pid" :options="menus" style="width: 460px;" placeholder="选择上级类目" />
+      <el-form-item label="权限标识">
+        <el-input v-model="form.permissions" placeholder="权限标识" style="width: 460px;"/>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -65,7 +72,7 @@ export default {
   data() {
     return {
       loading: false, dialog: false,
-      form: { name: '', sort: 999, path: '', component: '', iframe: 'false', roles: [], pid: 0, icon: '' },
+      form: { name: '', sort: 999, path: '', component: '', isMenu: 'true', isiframe: 'false', roles: [], pid: 0, icon: '' },
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: 'blur' }
