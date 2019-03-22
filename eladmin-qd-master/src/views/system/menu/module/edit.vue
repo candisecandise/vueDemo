@@ -30,12 +30,14 @@ export default {
   methods: {
     to() {
       const _this = this.$refs.form
+      var iframe = this.data.iframe ? this.data.iframe.toString() : ''
+      var isMenu = this.data.isMenu ? this.data.isMenu.toString() : ''
       if (this.isEdit) {
-        _this.form = { id: this.data.id, component: this.data.component, name: this.data.name, sort: this.data.sort, pid: this.data.pid, path: this.data.path, roles: [], icon: this.data.icon, iframe: this.data.iframe.toString(), isMenu: this.data.isMenu.toString() }
+        _this.form = { name: this.data.name, pid: this.data.pid, roles: [], icon: this.data.icon }
       } else {
-        _this.form = { component: this.data.component, sort: this.data.sort, pid: this.data.id, path: this.data.path, iframe: this.data.iframe.toString(), isMenu: this.data.isMenu.toString() }
+        _this.form = { pid: this.data.id }
       }
-
+      _this.form = { component: this.data.component, sort: this.data.sort, pid: this.data.id, path: this.data.path, iframe: iframe, isMenu: isMenu }
       _this.dialog = true
     }
   }

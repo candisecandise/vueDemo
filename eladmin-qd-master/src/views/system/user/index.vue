@@ -4,7 +4,7 @@
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
       <el-table-column prop="username" label="用户名"/>
-      <el-table-column prop="roles" label="类型">
+      <el-table-column prop="roles" label="角色">
         <template slot-scope="scope">
           <span v-for="(item,index) in scope.row.roles " :key="index">{{ item.name }}</span>
         </template>
@@ -87,7 +87,7 @@ export default {
       const type = query.type
       const value = query.value
       const enabled = query.enabled
-      // this.params = { page: this.page, size: this.size, sort: sort }
+      this.params = { page: this.page, size: this.size, sort: sort }
       // 先注释
       this.params = {}
       if (type && value) { this.params[type] = value }
