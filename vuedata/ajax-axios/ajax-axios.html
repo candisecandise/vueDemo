@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../vuejs/dist/vue.js"></script>
+  <script src="../js/axios/dist/axios.js"></script>
+  <style>
+    .main {
+      width: 500px;
+      margin: 0 auto;
+      font-family: 'Helvetica Neue', Helvetica, 'PingFang SC',
+        'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .main div {
+      height: 20px;
+      margin-bottom: 10px;
+    }
+
+    .main div span {
+      color: darkgoldenrod;
+    }
+
+    table {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    tbody tr td {
+      color: darkgoldenrod;
+    }
+
+    tbody tr:nth-child(2n-1) {
+      background-color: white;
+      color: black;
+      font-size: normal;
+    }
+
+    tbody tr:hover {
+      opacity: 0.8;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="main">
+    <button @click="cancel">取消请求</button>
+    <div>
+      表格名称：<span v-bind:style="{color:color}">{{ title }}</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <td width="50%">名称</td>
+          <td width="50%">连接数</td>
+        </tr>
+      </thead>
+      <tbody>
+        <template v-for="item in list">
+            <tr><td>{{item.name}}</td><td>{{item.value}}</td></tr>
+        </template>
+      </tbody>
+    </table>
+    <div>
+      表格名称2：<span v-bind:style="{color:color}">{{ title2 }}</span>
+    </div>
+  </div>
+</body>
+<script>
+  //  中断函数
+  var app = new Vue({
+    el: '#app',
+    data: {
+      title: '',
+      title2: '',
+      list: [],
+      color: 'red',
+      source: null,
+      cancel:null
+    },
+    mounted() {
+      this.source = axios.CancelToken.source();
+      var cancelToken = axios.CancelToken;
+      this.$nextTick( ()=> {
+        // var that = this
+        // $.ajax({
+        //   type: 'get',
+        //   url: 'link2.json',
+        //   dataType: 'json',
+        //   success: function (data) {
+        //     that.title = data.title
+        //     that.list = data.list
+        //   }
+        // })
+        setTimeout(() => {
+          // axios.get("./link2.json",{cancelToken: this.source.token}).then(res => {
+            axios.get("./link2.json",{
+              cancelToken: new CancelToken((c)=>{
+              this.cancel = c;
+              })
+            }).then(res => {
+            var data = res.data;
+            this.title = data.title
+            this.list = data.list
+            console.log(res.data);
+          }).catch(err=>{
+            console.log(err)
+          });
+          // axios.get("./link.json",{cancelToken: this.source.token}).then(res => {
+            axios.get("./link2.json",{
+              cancelToken: new CancelToken((c)=>{
+              this.cancel = c;
+              })
+            }).then(res => {
+            var data = res.data;
+            this.title2 = data.title
+            console.log(res.data);
+          }).catch(err=>{
+            console.log(err)
+          });
+        }, 5000);
+        
+      })
+    },
+    methods: {
+      test(){
+        console.log("11")
+      },
+      cancel() {
+        console.log("取消请求")
+        this.source.cancel('中断请求')
+     }
+    }
+  })
+</script>
+
+</html>

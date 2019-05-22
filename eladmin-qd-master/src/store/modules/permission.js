@@ -20,8 +20,10 @@ const permission = {
 }
 
 export const filterAsyncRouter = (routers) => { // 遍历后台传来的路由字符串，转换为组件对象
+  console.log(routers)
   const accessedRouters = routers.filter(router => {
     if (router.component) {
+      console.log(router.component)
       if (router.component === 'Layout') { // Layout组件特殊处理
         router.component = Layout
       } else {
@@ -34,10 +36,12 @@ export const filterAsyncRouter = (routers) => { // 遍历后台传来的路由�
     }
     return true
   })
+  console.log(accessedRouters)
   return accessedRouters
 }
 
 export const loadView = (view) => { // 路由懒加载
+  console.log(view)
   return () => import(`@/views/${view}`)
 }
 

@@ -1,0 +1,84 @@
+<!-- class -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+  <script src="vuejs/dist/vue.js"></script>
+  <style>
+    .class1{
+      color:red
+    }
+    .class2{
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+      <div :class="[{'class1':flag},'class2']">111</div>
+  </div>
+</body>
+<script>
+  var app = new Vue({
+    el:'#app',
+    data:{
+      flag:1
+    },
+    mounted () {
+      setTimeout(this.getTime(11), 2000);
+    },
+    methods:{
+      getTime(name){
+        console.log(name)
+      }
+    }
+  })
+</script>
+
+</html> -->
+
+<!-- Vue.set -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+  <script src="vuejs/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="app">
+    <p @click="addd(obj)">{{obj.d}}</p>
+    <p @click="adde(obj)">{{obj.e}}</p>
+  </div>
+</body>
+<script>
+  var app = new Vue({
+    el:'#app',
+    data:{
+      obj:{}
+    },
+    mounted () {
+      this.obj={d:0}
+      // this.obj.e = 0;
+      this.obj= Object.assign({}, this.obj, { a: 1, e: 2 })
+      console.log(this.obj)
+    },
+    methods:{
+      addd(item) {
+          item.d = item.d + 1;
+          console.log(this.obj)
+      },
+      adde(item) {
+          item.e = item.e + 1;
+          console.log(this.obj)
+      }
+    }
+  })
+</script>
+
+</html>

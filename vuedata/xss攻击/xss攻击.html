@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../vuejs/dist/vue.js"></script>
+  <script src="../js/axios/dist/axios.js"></script>
+  <script>
+    // 方法一
+    function text() {
+      var str = document.getElementById("text").value;
+      document.getElementById("t").innerHTML = "<a href='" + str + "' >testLink</a>";
+      // ' onclick=alert(document.location) //
+    }
+  </script>
+</head>
+<body>
+  <!-- <div id="t"></div>
+  <input type="text" id="text" value="">
+  <input type="button" id="s" value="write" onclick="text()"> -->
+  <div id="app">
+    <span v-html="attack"></span>
+  </div>
+  <!-- 方法三 -->
+  <!-- <span><script>  alert(11111)  </script></span> -->
+</body>
+<script>
+  // 方法二
+  var app = new Vue({
+    el:'#app',
+    data:{
+      attack:'<a onclick=alert(document.location)>111</a>'
+    }
+  })
+</script>
+</html>

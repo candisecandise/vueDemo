@@ -6,7 +6,11 @@
       <el-table v-loading="loading" :data="data" highlight-current-row size="small" border style="width: 100%;">
         <!-- @current-change="handleCurrentChange"> -->
         <el-table-column prop="name" label="名称"/>
-        <el-table-column prop="remark" label="描述"/>
+        <el-table-column prop="remark" label="描述">
+          <template slot-scope="scope">
+            <span>{{ scope.row.remark }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <edit v-if="checkPermission(['ADMIN','ROLES_ALL','ROLES_EDIT'])" :data="scope.row" :sup_this="sup_this" :menus="menus"/>

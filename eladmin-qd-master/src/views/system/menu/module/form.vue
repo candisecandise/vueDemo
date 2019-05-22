@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="dialog" :title="isAdd ? '新增菜单' : '编辑菜单'" append-to-body width="600px">
     <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
       <el-form-item label="上级菜单">
-        <treeselect v-model="form.pid" :options="menus" style="width: 460px;" placeholder="选择上级类目" />
+        <treeselect v-model="form.pid" :options="menus" :default-expand-level="Infinity" style="width: 460px;" placeholder="选择上级类目" />
       </el-form-item>
       <el-form-item label="菜单图标">
         <el-popover
@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       loading: false, dialog: false,
-      form: { name: '', sort: 999, path: '', component: '', isMenu: 'true', isiframe: 'false', roles: [], pid: 0, icon: '' },
+      form: { name: '', sort: 999, path: '', component: '', isMenu: 'true', isiframe: 'false', roles: [], pid: 1, icon: '' },
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: 'blur' }
@@ -137,7 +137,7 @@ export default {
     resetForm() {
       this.dialog = false
       this.$refs['form'].resetFields()
-      this.form = { name: '', sort: 999, path: '', component: '', iframe: 'false', roles: [], pid: 0, icon: '' }
+      this.form = { name: '', sort: 999, path: '', component: '', iframe: 'false', roles: [], pid: 1, icon: '' }
     },
     selected(name) {
       this.form.icon = name

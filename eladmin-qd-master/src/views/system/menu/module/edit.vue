@@ -29,15 +29,15 @@ export default {
   },
   methods: {
     to() {
+      console.log(this.data)
       const _this = this.$refs.form
       var iframe = this.data.iframe ? this.data.iframe.toString() : ''
       var isMenu = this.data.isMenu ? this.data.isMenu.toString() : ''
       if (this.isEdit) {
-        _this.form = { name: this.data.name, pid: this.data.pid, roles: [], icon: this.data.icon }
+        _this.form = { name: this.data.name, pid: this.data.pid, roles: [], icon: this.data.icon, component: this.data.component, sort: this.data.sort, path: this.data.path, iframe: iframe, isMenu: isMenu }
       } else {
-        _this.form = { pid: this.data.id }
+        _this.form = { pid: this.data.id, component: this.data.component, sort: this.data.sort, path: this.data.path, iframe: iframe, isMenu: isMenu }
       }
-      _this.form = { component: this.data.component, sort: this.data.sort, pid: this.data.id, path: this.data.path, iframe: iframe, isMenu: isMenu }
       _this.dialog = true
     }
   }

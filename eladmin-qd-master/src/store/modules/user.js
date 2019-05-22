@@ -10,6 +10,7 @@ const user = {
     avatar: '',
     createTime: '',
     roles: [],
+    permissions: [],
     // 第一次加载菜单时用到
     loadMenus: false
   },
@@ -26,6 +27,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_PERMISSIONS: (state, permissions) => {
+      state.permissions = permissions
     },
     SET_CREATE_TIME: (state, createTime) => {
       state.createTime = createTime
@@ -96,9 +100,11 @@ export const setUserInfo = (res, commit) => {
   } else {
     commit('SET_ROLES', res.roles)
   }
+  commit('SET_PERMISSIONS', res.permissions)
   commit('SET_NAME', res.username)
   commit('SET_AVATAR', res.avatar)
   commit('SET_EMAIL', res.email)
+
   commit('SET_CREATE_TIME', parseTime(res.createTime))
 }
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+    .clearfix:before,.clearfix:after{
+      display: table;
+      content:"";
+      line-height: 0;
+    }
+    .clearfix:after{
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 600px;border: 1px solid saddlebrown" class="clearfix">
+      <div style="float: left;width: 300px;border: 1px solid salmon">
+          <div style="display:relative;height: 300px;" class="clearfix">
+            <!-- margin要在一个 没有浮动的标签上，才会发生塌陷 -->
+            <span style="display: block;width: 100px;height: 100px;border: 1px solid seagreen;margin-top: 50px">222</span>
+          </div>
+        </div>
+  </div>  
+</body>
+
+</html>

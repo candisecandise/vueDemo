@@ -1,0 +1,63 @@
+<!DOCTYPE >
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  html,body{
+    height: 100%;
+    /* margin:0 */
+  }
+  html{
+    border: 4px solid salmon
+  }
+  .box1{
+    width: 200px;
+    height: 200px;
+    background: rebeccapurple;
+    padding: 10px; 
+    margin:10px;
+    position: relative;
+    overflow: scroll;
+    /* box-sizing: content-box; */
+  }
+  .box2{
+    width: 100px;
+    height: 400px;
+    background: goldenrod
+  }
+  </style>
+</head>
+<body>
+  <!-- <div style="heght:100%;width: 100%">
+    <button id="button" style="margin:10px;">按钮</button>
+  </div> -->
+  <div class="box1">
+    <div class="box2">
+    
+    </div>
+  </div>
+</body>
+<script>
+// console.log(document.documentElement.clientHeight)
+// console.log(document.documentElement.clientWidth)
+// console.log(document.body.clientHeight)
+// console.log(document.body.clientWidth)
+// console.log(window.innerHeight)
+// console.log(window.innerWidth)
+var obody = document.querySelector('body');
+var oBox1 = document.querySelector('.box1');
+var oBox2 = document.querySelector('.box2');
+console.log('body: '+ obody.offsetLeft +','+ obody.offsetTop);
+console.log('box1: '+ oBox1.offsetLeft +','+ oBox1.offsetTop);
+console.log('box1clientwidth: '+ oBox1.clientWidth);
+console.log('box1offsetwidth: '+ oBox1.offsetWidth);
+console.log('box1rect: '+ oBox1.getBoundingClientRect().left +','+ oBox1.getBoundingClientRect().top);
+console.log('box1rectwidth: '+ oBox1.getBoundingClientRect().width);
+console.log('box2: '+ oBox2.offsetLeft +','+ oBox2.offsetTop);
+console.log('box2rect: '+ oBox2.getBoundingClientRect().left +','+ oBox2.getBoundingClientRect().top);
+
+</script>
+</html>

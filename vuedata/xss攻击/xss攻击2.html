@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../vuejs/dist/vue.js"></script>
+    <script src="../js/axios/dist/axios.js"></script>
+    <style type="text/css">
+        .comment-title{
+            font-size:14px;
+            margin: 6px 0px 2px 4px;
+        }
+
+        .comment-body{
+            font-size: 14px;
+            color:#ccc;
+            font-style: italic;
+            border-bottom: dashed 1px #ccc;
+            margin: 4px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div style="margin:20px;">
+            <div style="font-size:16px;font-weight:bold;">Your Comment</div>
+            <div style="padding:6px;">
+                Nick Name:
+                <br/>
+                <input name="name" type="text" style="width:300px;"/>
+            </div>
+            <div style="padding:6px;">
+                Comment:
+                <br/>
+                <textarea name="comment" style="height:100px; width:300px;"></textarea>
+                    <!-- 输入11 <script>console.log("shazi")</script> -->
+                    <!-- 或者是加载恶意的远程js -->
+            </div>
+            <div style="padding-left:230px;">
+                <input type="submit" value="POST" style="padding:4px 0px; width:80px;"/>
+            </div>
+        </div>
+    </form>
+</body>
+<script>
+  $(':submit').click(function(){
+    event.preventDefault();
+    var ele = '<div>' + $('textarea').val() + '</div>'
+    $('body').append(ele)
+  })
+// 恶意的远程js可以是
+// <!-- <img src='0' onerror=with(document)body.appendChild(createElement('script')).src='/xx'> -->
+</script>
+</html>

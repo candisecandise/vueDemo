@@ -114,10 +114,11 @@ export default {
     getMenus() {
       getMenusTree().then(res => {
         this.menus = []
-        const menu = { id: 0, label: '顶级类目', children: [] }
+        // const menu = { id: 0, label: '顶级类目', children: [] }
         // menu.children = res
-        menu.children = res.data
-        this.menus.push(menu)
+        // menu.children = res.data
+        // this.menus.push(menu)
+        this.menus.push(res.data)
       })
     }
   }
